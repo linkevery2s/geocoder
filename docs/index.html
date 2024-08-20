@@ -1,64 +1,126 @@
 <!DOCTYPE html>
 <html lang='ja'>
+
 <head>
-<meta charset='UTF-8' name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
+  <meta charset='UTF-8' name='viewport'
+    content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-<script src="leaflet-hash.js"></script>
-    <link rel="stylesheet" href="Control.OSMGeocoder.css" />
-    <script src="Control.OSMGeocoder.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css"
+    integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"
+    integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+  <script src="./leaflet-hash.js"></script>
+  <link rel="stylesheet" href="./Control.OSMGeocoder.css" />
+  <script src="./Control.OSMGeocoder.js"></script>
 
-<style>
-html,body,#map{
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-}
-</style>
-<script>
-function ini(){
+  <script src="https://cdn.tailwindcss.com"></script>
 
-var map = L.map('map');
+  <style>
+    html,
+    body,
+    #map {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+    .side_menu {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 15;
+      background: rgba(255, 255, 255, .7);
+      border-radius: .5em;
+      border: 1px solid #000000;
+    }
 
-map.setView([37.3, 137.8], 5)
+    .leaflet {
+      background: #264af4;
+      color: #ffffff;
+      border-radius: .3em;
+      cursor: pointer;
+    }
 
-        var option = {
-          position: 'topright', // topright, topleft, bottomright, bottomleft
-          text: '検索',
-          placeholder: '検索条件キーワード'
-        }
-        var osmGeocoder = new L.Control.OSMGeocoder(option);
-    		map.addControl(osmGeocoder);
+    .maplibre {
+      background: #264af4;
+      color: #ffffff;
+      border-radius: .3em;
+      cursor: pointer;
+    }
+  </style>
+  <script type="module">
 
-        var hash = new L.Hash(map);
+    const map = L.map('map', { zoomControl: false });
+
+    L.control.zoom({ position: 'topright' }).addTo(map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    map.setView([37.3, 137.8], 5)
+
+    const option = {
+      position: 'topright', // topright, topleft, bottomright, bottomleft
+      text: '検索',
+      placeholder: '検索条件キーワード'
+    }
+
+    const osmGeocoder = new L.Control.OSMGeocoder(option);
+    map.addControl(osmGeocoder);
+
+    let hash = new L.Hash(map);
 
     //クリックイベント
-map.on('click', function(e) {
+    map.on('click', function (e) {
 
-    lat = e.latlng.lat;
-    lng = e.latlng.lng;
+      let lat; let lng;
 
-    lat = Math.round(lat * 1000) / 1000;
+      lat = e.latlng.lat;
+      lng = e.latlng.lng;
 
-    lng = Math.round(lng * 1000) / 1000;
+      lat = Math.round(lat * 1000) / 1000;
 
-    alert(lat + "," + lng);
-} );
+      lng = Math.round(lng * 1000) / 1000;
 
+      alert(lat + "," + lng);
+    });
 
-}
-</script>
-<title>緯度・経度、Geocoder</title>
+    const leaflet_map = document.querySelector(".leaflet");
+    const maplibre_map = document.querySelector(".maplibre");
+
+    leaflet_map.addEventListener("click", () => {
+
+      location.href = "./index.html";
+
+    })
+
+    maplibre_map.addEventListener("click", () => {
+
+      location.href = "./index2.html";
+
+    })
+
+  </script>
+  <title>Geocoder,leaflet</title>
 
 </head>
-<body onLoad='ini()'>
-	<div id='map'></div>
+
+<body>
+
+  <div class="side_menu p-5 text-center">
+
+    <div class="leaflet p-2">Leaflet</div>
+    <div class="maplibre mt-5 p-2">Maplibre</div>
+
+  </div>
+
+  <div id='map'></div>
 </body>
+
 </html>

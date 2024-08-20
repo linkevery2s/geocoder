@@ -4,9 +4,19 @@
 <head>
   <meta charset='UTF-8' name='viewport'
     content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'>
-  <title>lat,lng,zoom,bearing,pitch</title>
+  <title>Geocoder,maplibre,lat,lng,zoom,bearing,pitch</title>
   <script src='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js'></script>
   <link href='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css' rel='stylesheet' />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+    integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     html,
     body,
@@ -17,7 +27,7 @@
       margin: 0;
     }
 
-    .side_menu {
+    .side_menu2 {
       position: absolute;
       top: 50%;
       transform: translate(10px, -50%);
@@ -33,6 +43,31 @@
       border-radius: .5em;
       border: 1px solid #000000;
     }
+
+    .side_menu {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 15;
+      background: rgba(255, 255, 255, .7);
+      border-radius: .5em;
+      border: 1px solid #000000;
+    }
+
+    .leaflet {
+      background: #264af4;
+      color: #ffffff;
+      border-radius: .3em;
+      cursor: pointer;
+    }
+
+    .maplibre {
+      background: #264af4;
+      color: #ffffff;
+      border-radius: .3em;
+      cursor: pointer;
+    }
+
   </style>
   <script type="module">
     /* OpenStreetMap ベクトルタイル */
@@ -57,7 +92,7 @@
       showUserLocation: true
     }));
 
-    function rotateCamera(timestamp) {
+    let rotateCamera = (timestamp) => {
       map.rotateTo((timestamp / 100) % 360, { duration: 0 });
       requestAnimationFrame(rotateCamera);
     };
@@ -66,6 +101,21 @@
     button.addEventListener('click', () => {
       rotateCamera(0);
     });
+
+    const leaflet_map = document.querySelector(".leaflet");
+    const maplibre_map = document.querySelector(".maplibre");
+
+    leaflet_map.addEventListener("click", () => {
+
+      location.href = "./index.html";
+
+    })
+
+    maplibre_map.addEventListener("click", () => {
+
+      location.href = "./index2.html";
+
+    })
 
   </script>
 </head>
@@ -76,9 +126,16 @@
 
   <div id='map'></div>
 
-  <span class="side_menu">
+  <span class="side_menu2">
     <div class="button mb-1"><i class="fa-solid fa-xl fa-rotate"></i></div>
   </span>
+
+  <div class="side_menu p-5 text-center">
+
+    <div class="leaflet p-2">Leaflet</div>
+    <div class="maplibre mt-5 p-2">Maplibre</div>
+
+  </div>
 
 </body>
 
